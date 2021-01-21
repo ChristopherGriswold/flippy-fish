@@ -3,7 +3,7 @@ LibGDX game jam submission. SEP 2020
 
 ## [Play now on itch.io](https://iceybones.itch.io/flippy-fish)
 
-<a href='https://iceybones.itch.io/flippy-fish'><img alt='Play on itch.io' src='./assets/Images/itchCover.png/></a>
+<a href='https://iceybones.itch.io/flippy-fish'><img alt='Play on itch.io' src='./assets/Images/itchCover.png'/></a>
 
 or
 
