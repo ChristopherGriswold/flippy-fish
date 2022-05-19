@@ -149,7 +149,8 @@ public class FlippyFish extends ApplicationAdapter {
 	}
 
 	public static int getLevel() {
-		return level;
+//		return level;
+		return 20;
 	}
 
 	public static StateManager getStateManager() {
