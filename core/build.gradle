@@ -1,9 +1,6 @@
+sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-eclipse.project.name = appName + '-core'
 
-dependencies {
-	api "com.badlogicgames.gdx:gdx:$gdxVersion"
-//	api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-	api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
-}
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+eclipse.project.name = appName + "-core"
