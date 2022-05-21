@@ -45,10 +45,11 @@ public class OilSpill extends  GameObject{
 
     if (position.x < 144) {
     if (hitCircle.overlaps(player.getHitCircle())) {
-      player.expire();
+      this.position.x = -500;
       if (FlippyFish.sfxOn) {
         sound.play(.7f);
       }
+      player.expire();
     }
   }
 

@@ -59,7 +59,7 @@ public class Boat extends GameObject {
 
   public void setOffScreen() {
     isOffScreen = true;
-    offScreenTimer = (float) (10 / FlippyFish.level) + (random.nextInt(5) + 1);
+    offScreenTimer = (float) (10 / (FlippyFish.level + 1)) + (random.nextInt(5) + 1);
   }
 
   public void resetRandom() {

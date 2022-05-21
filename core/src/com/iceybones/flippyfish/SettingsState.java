@@ -14,6 +14,7 @@ public class SettingsState extends State{
   private Texture backButton;
   private Texture offEgg;
   private Texture egg;
+  private Texture confirm;
   BitmapFont font;
   private Sound pop;
   private Sound popDown;
@@ -22,6 +23,7 @@ public class SettingsState extends State{
   private boolean soundOn;
   private boolean sfxOn;
   private boolean dataCleared;
+  private boolean isConfirming = false;
 
   Vector3 touchPoint;
 
@@ -36,6 +38,7 @@ public class SettingsState extends State{
   egg = new Texture("Images/egg.png");
   offEgg = new Texture("Images/offEgg.png");
   backButton = new Texture("Images/backButton.png");
+  confirm = new Texture("Images/confirm_button.png");
   soundOn = true;
   sfxOn = true;
 }
@@ -48,6 +51,7 @@ public class SettingsState extends State{
       int y = (int) touchPoint.y;
 
       if (x < 80 && y > 720 && FlippyFish.runningTime > 1_000_000_000) {
+        isConfirming = false;
         // Back button pressed
         if (FlippyFish.sfxOn) {
           settingsSound.play();
@@ -59,6 +63,7 @@ public class SettingsState extends State{
       if (x > 60 && x < 406) {
         if (y > 394 && y < 478) {
           // Sound button pressed
+          isConfirming = false;
           if (!soundOn) {
             if (FlippyFish.sfxOn) {
               pop.play();
@@ -76,6 +81,7 @@ public class SettingsState extends State{
           }
         } else if (y > 240 && y < 325) {
           // sfx button pressed
+          isConfirming = false;
           if (!sfxOn) {
             pop.play();
             sfxOn = true;
@@ -93,6 +99,10 @@ public class SettingsState extends State{
           if (dataCleared) {
             return;
           }
+          if (!isConfirming){
+            isConfirming = true;
+            return;
+          }
           if (FlippyFish.sfxOn) {
             clearDataSound.play(.5f);
           }
@@ -101,8 +111,12 @@ public class SettingsState extends State{
           FlippyFish.ghostJumps.clear();
           FlippyFish.ghostJumps.flush();
           dataCleared = true;
+          isConfirming = false;
+          FlippyFish.playerName = "CLICK HERE";
+          FlippyFish.scores.putString("name", "CLICK HERE");
         }
       }
+      isConfirming = false;
     }
   }
 
@@ -127,6 +141,9 @@ public class SettingsState extends State{
   public void render(SpriteBatch sb) {
     sb.begin();
     sb.draw(background, 0, 0, FlippyFish.WIDTH, FlippyFish.HEIGHT);
+    if (isConfirming) {
+      sb.draw(confirm, 66, 98);
+    }
     if (FlippyFish.runningTime > 1_000_000_000) {
       sb.draw(backButton, 8, 736, 64, 64);
     }

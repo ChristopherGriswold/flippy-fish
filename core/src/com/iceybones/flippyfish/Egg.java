@@ -13,7 +13,7 @@ public class Egg extends GameObject{
   private int instanceNumber;
   private Circle hitCircle;
   private int driftspeed;
-  private static final int SPAWN_RATE = 5;
+  private static final int SPAWN_RATE = 10;
   private static final int POINT_VALUE = 1;
   private static Texture texture;
   private static Sound sound;

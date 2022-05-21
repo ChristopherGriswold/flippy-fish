@@ -1,11 +1,9 @@
-package com.iceybones.flippyfish.android;
+package com.iceybones.flippyfish;
 
 import android.content.Context;
 import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.iceybones.flippyfish.FlippyFish;
-import com.iceybones.flippyfish.PlayState;
 import java.io.File;
 
 /** Launches the Android application. */

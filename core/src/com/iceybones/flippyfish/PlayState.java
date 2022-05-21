@@ -37,6 +37,8 @@ public class PlayState extends State {
   private ArrayList<OilSpill> oilSpillList;
   private static StarManager starManager;
   BitmapFont font;
+  private long numUpdates = 0;
+  private Boolean isResetting = false;
 
 
   public PlayState(StateManager stateManager) {
@@ -117,22 +119,33 @@ public class PlayState extends State {
         eggList.get(i).resetRandom();
         eggList.get(i).setOffScreen();
       }
-
+    if (FlippyFish.isSurvivalMode) {
+      OilSpill.instances = 0;
+      oilSpillList = new ArrayList<OilSpill>();
+      numOilSpills = 2;
+      for (int i = 0; i < numOilSpills; i++) {
+        oilSpillList.add(new OilSpill());
+      }
+    } else {
       for (int i = 0; i < numOilSpills; i++) {
         oilSpillList.get(i).resetRandom();
         oilSpillList.get(i).setOffScreen();
       }
+    }
     FlippyFish.runningTime = 0;
     FlippyFish.roundScore = 0;
     FlippyFish.gameStartTime = TimeUtils.nanoTime();
     ghostFish.start();
+    isResetting = false;
   }
 
 
   @Override
   public void handleInput() {
     if (Gdx.input.justTouched()) {
-      if (Gdx.input.getX() < 80 && Gdx.input.getY() < 80 && FlippyFish.runningTime > 1_000_000_000) {
+      int x = Gdx.input.getX();
+      int y = Gdx.input.getY();
+      if (x < 144 && y < 128 && FlippyFish.runningTime > 1_000_000_000) {
         // Back button pressed
         backButtonPressed = true;
         goToMenu();
@@ -145,6 +158,11 @@ public class PlayState extends State {
 
   @Override
   public void update(float dt) {
+    if (FlippyFish.isSurvivalMode && (FlippyFish.runningTime / 10_000_000_000L) + 2 > oilSpillList.size()) {
+      OilSpill.instances++;
+      numOilSpills++;
+      oilSpillList.add(new OilSpill());
+    }
     player.update(dt);
     ghostFish.update(dt, player);
     starManager.update(dt);
@@ -195,8 +213,15 @@ public class PlayState extends State {
       }
     }
 
-    font.draw(sb, FlippyFish.roundScore + " / " + (Math.max(FlippyFish.highScore, 50)),
-        365 , 750);
+//    font.draw(sb, "" + FlippyFish.runningTime / 10_000_000_000L,
+//        365 , 750);
+    if (FlippyFish.isSurvivalMode) {
+      font.draw(sb, FlippyFish.roundScore + " / " + FlippyFish.highScore,
+          340 , 780);
+    } else {
+      font.draw(sb, FlippyFish.roundScore + " / " + (Math.max(FlippyFish.highScore, 50)),
+          365 , 750);
+    }
 
     displayLevelCleared(sb);
     starManager.render(sb);
@@ -275,7 +300,7 @@ public class PlayState extends State {
   private boolean lvlClearedFlag;
 
   public void displayLevelCleared(SpriteBatch sb) {
-    if (FlippyFish.roundScore >= 50 && displayTime > 0 && !isReplay) {
+    if (!FlippyFish.isSurvivalMode && FlippyFish.roundScore >= 50 && displayTime > 0 && !isReplay) {
       sb.draw(levelCompleted, 0, 0);
    //   sb.draw(StarManager.getNoStars(), 115, 40);
       displayTime -= Gdx.graphics.getDeltaTime();

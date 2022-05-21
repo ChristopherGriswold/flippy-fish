@@ -31,6 +31,9 @@ public class StarManager implements Disposable {
   private static Sound winSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/win.ogg"));
 
   public void render(SpriteBatch sb) {
+    if (FlippyFish.isSurvivalMode) {
+      return;
+    }
     flash(sb);
     sb.draw(stars, starPosition.x, starPosition.y, starSize.x, starSize.y);
   }
@@ -119,7 +122,7 @@ public class StarManager implements Disposable {
   }
 
   public void update(float dt) {
-    if (numStars == 3) {
+    if (FlippyFish.isSurvivalMode || numStars == 3) {
       return;
     } else if (FlippyFish.roundScore >= starThreeScore && numStars == 2) {
       stars = threeStars;
@@ -166,11 +169,19 @@ public class StarManager implements Disposable {
           return true;
         } else {
           setStars(0);
-          return false;
+          if (level == 0) {
+            return true;
+          } else {
+            return false;
+          }
         }
       } else {
         setStars(0);
-        return false;
+        if (level == 0) {
+          return true;
+        } else {
+          return false;
+        }
       }
     }
 

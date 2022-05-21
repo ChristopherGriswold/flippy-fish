@@ -12,7 +12,7 @@ public class Pickup extends GameObject{
   public static int instances;
   private int instanceNumber;
   private Circle hitCircle;
-  public static final int POINT_VALUE = 2;
+  public static final int POINT_VALUE = 3;
   private static final int SPAWN_RATE = 30;
   private static Texture texture;
   private static Sound sound;
